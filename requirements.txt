@@ -1,0 +1,16 @@
+fastapi
+qdrant-client
+sentence_transformers
+uvicorn
+pymongo 
+python-dotenv 
+pydantic
+ddgs 
+langchain_community 
+langchain_groq
+requests
+aio-pika
+aiosmtplib
+motor
+pymongo 
+catboost
