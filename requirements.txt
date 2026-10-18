@@ -14,3 +14,9 @@ aiosmtplib
 motor
 pymongo 
 catboost
+scikit-learn==1.8.0  # must match the version used to train ml/artifacts
+pandas
+numpy
+scipy
+joblib
+matplotlib

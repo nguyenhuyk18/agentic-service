@@ -1,0 +1,14 @@
+1/6 psychometrics
+2/6 split + adaptive simulation
+3/6 5-fold cross-validation
+   prior (đoán theo tần suất)                 top3=0.388 macroF1=0.019 logloss=2.620
+   rule-based cosine (hệ thống hiện tại)      top3=0.322 macroF1=0.100 logloss=3.176
+   logistic regression                        top3=0.500 macroF1=0.088 logloss=2.401
+   random forest                              top3=0.493 macroF1=0.097 logloss=2.413
+   mlp                                        top3=0.499 macroF1=0.097 logloss=2.399
+   catboost                                   top3=0.492 macroF1=0.103 logloss=2.428
+   selected: mlp
+4/6 final fit + calibration + test
+5/6 adaptive testing simulation
+6/6 export
+done in 426.5s -> D:\NestJSMicroservice\major-guide\agentic-ai\ml\artifacts\career_family_model.joblib

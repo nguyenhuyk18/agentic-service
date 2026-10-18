@@ -1,0 +1,638 @@
+[
+ {
+  "id": "DD-01",
+  "name": "Nghiên cứu nổi bật (I)",
+  "answers": {
+   "R": [
+    3,
+    3,
+    3,
+    2,
+    3
+   ],
+   "I": [
+    5,
+    5,
+    5,
+    5,
+    4
+   ],
+   "A": [
+    2,
+    2,
+    1,
+    2,
+    2
+   ],
+   "S": [
+    2,
+    2,
+    2,
+    1,
+    2
+   ],
+   "E": [
+    1,
+    1,
+    2,
+    1,
+    1
+   ],
+   "C": [
+    3,
+    3,
+    3,
+    2,
+    3
+   ]
+  },
+  "expectTop1": [
+   "physical_sciences_math",
+   "life_sciences",
+   "it_software",
+   "engineering",
+   "health_medicine"
+  ]
+ },
+ {
+  "id": "DD-02",
+  "name": "Thực hành - Kỹ thuật nổi bật (R)",
+  "answers": {
+   "R": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "I": [
+    4,
+    4,
+    3,
+    4,
+    4
+   ],
+   "A": [
+    1,
+    1,
+    2,
+    1,
+    1
+   ],
+   "S": [
+    1,
+    1,
+    1,
+    2,
+    1
+   ],
+   "E": [
+    2,
+    2,
+    2,
+    1,
+    2
+   ],
+   "C": [
+    3,
+    3,
+    3,
+    3,
+    2
+   ]
+  },
+  "expectTop1": [
+   "engineering",
+   "architecture_construction",
+   "it_software",
+   "physical_sciences_math"
+  ]
+ },
+ {
+  "id": "DD-03",
+  "name": "Nghệ thuật - Sáng tạo nổi bật (A)",
+  "answers": {
+   "R": [
+    1,
+    1,
+    2,
+    1,
+    1
+   ],
+   "I": [
+    2,
+    2,
+    2,
+    1,
+    2
+   ],
+   "A": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "S": [
+    3,
+    3,
+    2,
+    3,
+    3
+   ],
+   "E": [
+    2,
+    2,
+    2,
+    2,
+    3
+   ],
+   "C": [
+    1,
+    1,
+    1,
+    2,
+    1
+   ]
+  },
+  "expectTop1": [
+   "arts_design",
+   "humanities_language",
+   "marketing_communication"
+  ]
+ },
+ {
+  "id": "DD-04",
+  "name": "Xã hội - Hỗ trợ nổi bật (S)",
+  "answers": {
+   "R": [
+    1,
+    1,
+    1,
+    1,
+    2
+   ],
+   "I": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "A": [
+    3,
+    3,
+    3,
+    2,
+    3
+   ],
+   "S": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "E": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "C": [
+    2,
+    2,
+    2,
+    2,
+    1
+   ]
+  },
+  "expectTop1": [
+   "psychology_counseling",
+   "social_work",
+   "education",
+   "health_medicine"
+  ]
+ },
+ {
+  "id": "DD-05",
+  "name": "Quản lý - Thuyết phục nổi bật (E)",
+  "answers": {
+   "R": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "I": [
+    2,
+    2,
+    2,
+    2,
+    1
+   ],
+   "A": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "S": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "E": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "C": [
+    4,
+    4,
+    4,
+    3,
+    4
+   ]
+  },
+  "expectTop1": [
+   "business_management",
+   "marketing_communication",
+   "finance_economics",
+   "law_public",
+   "hospitality_tourism"
+  ]
+ },
+ {
+  "id": "DD-06",
+  "name": "Nghiệp vụ - Tổ chức nổi bật (C)",
+  "answers": {
+   "R": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "I": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "A": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "S": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "E": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "C": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ]
+  },
+  "expectTop1": [
+   "finance_economics",
+   "business_management",
+   "it_software"
+  ]
+ },
+ {
+  "id": "DD-07",
+  "name": "Mã IA: nghiên cứu + sáng tạo",
+  "answers": {
+   "R": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "I": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "A": [
+    5,
+    5,
+    5,
+    4,
+    5
+   ],
+   "S": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "E": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "C": [
+    1,
+    1,
+    1,
+    1,
+    2
+   ]
+  },
+  "expectTop1": [
+   "physical_sciences_math",
+   "life_sciences",
+   "arts_design",
+   "humanities_language",
+   "architecture_construction"
+  ]
+ },
+ {
+  "id": "DD-08",
+  "name": "Mã SE: xã hội + quản lý",
+  "answers": {
+   "R": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "I": [
+    1,
+    1,
+    2,
+    1,
+    1
+   ],
+   "A": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "S": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "E": [
+    5,
+    5,
+    5,
+    5,
+    4
+   ],
+   "C": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  "expectTop1": [
+   "business_management",
+   "psychology_counseling",
+   "law_public",
+   "education",
+   "hospitality_tourism",
+   "social_work"
+  ]
+ },
+ {
+  "id": "DD-09",
+  "name": "Mã RC: kỹ thuật + nghiệp vụ",
+  "answers": {
+   "R": [
+    5,
+    5,
+    5,
+    4,
+    5
+   ],
+   "I": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "A": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "S": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "E": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "C": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ]
+  },
+  "expectTop1": [
+   "engineering",
+   "it_software",
+   "finance_economics",
+   "architecture_construction"
+  ]
+ },
+ {
+  "id": "DD-10",
+  "name": "Trả lời toàn bộ \"Bình thường\" (3)",
+  "answers": {
+   "R": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "I": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "A": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "S": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "E": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "C": [
+    3,
+    3,
+    3,
+    3,
+    3
+   ]
+  },
+  "expectTop1": null
+ },
+ {
+  "id": "DD-11",
+  "name": "Trả lời toàn bộ \"Rất thích\" (5)",
+  "answers": {
+   "R": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "I": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "A": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "S": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "E": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "C": [
+    5,
+    5,
+    5,
+    5,
+    5
+   ]
+  },
+  "expectTop1": null
+ },
+ {
+  "id": "DD-12",
+  "name": "Trả lời toàn bộ \"Rất không thích\" (1)",
+  "answers": {
+   "R": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "I": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "A": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "S": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "E": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "C": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "expectTop1": null
+ }
+]

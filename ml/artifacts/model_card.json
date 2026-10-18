@@ -1,0 +1,223 @@
+{
+  "name": "majorguide-career-family",
+  "version": "2026.10.07",
+  "model": "mlp",
+  "features": [
+    "R_mean",
+    "I_mean",
+    "A_mean",
+    "S_mean",
+    "E_mean",
+    "C_mean",
+    "R_rel",
+    "I_rel",
+    "A_rel",
+    "S_rel",
+    "E_rel",
+    "C_rel",
+    "differentiation",
+    "elevation",
+    "consistency"
+  ],
+  "classes": [
+    "it_software",
+    "engineering",
+    "architecture_construction",
+    "business_management",
+    "marketing_communication",
+    "finance_economics",
+    "arts_design",
+    "humanities_language",
+    "psychology_counseling",
+    "education",
+    "social_work",
+    "law_public",
+    "health_medicine",
+    "life_sciences",
+    "physical_sciences_math",
+    "hospitality_tourism",
+    "sports_fitness"
+  ],
+  "class_names": {
+    "it_software": "Công nghệ thông tin",
+    "engineering": "Kỹ thuật",
+    "architecture_construction": "Kiến trúc & Xây dựng",
+    "business_management": "Kinh doanh & Quản trị",
+    "marketing_communication": "Marketing & Truyền thông",
+    "finance_economics": "Tài chính, Kế toán & Kinh tế",
+    "arts_design": "Nghệ thuật & Thiết kế",
+    "humanities_language": "Ngôn ngữ & Nhân văn",
+    "psychology_counseling": "Tâm lý học",
+    "education": "Giáo dục",
+    "social_work": "Xã hội học & Công tác xã hội",
+    "law_public": "Luật & Khu vực công",
+    "health_medicine": "Y tế & Điều dưỡng",
+    "life_sciences": "Khoa học sự sống",
+    "physical_sciences_math": "Khoa học tự nhiên & Toán",
+    "hospitality_tourism": "Du lịch & Dịch vụ",
+    "sports_fitness": "Thể thao & Vận động"
+  },
+  "temperature": 1.03,
+  "source_prior": [
+    0.042007,
+    0.064856,
+    0.026941,
+    0.110574,
+    0.046561,
+    0.055748,
+    0.056691,
+    0.077755,
+    0.19884,
+    0.042849,
+    0.034284,
+    0.047564,
+    0.078216,
+    0.047604,
+    0.048246,
+    0.00989,
+    0.011374
+  ],
+  "label_shift_beta": 0.5,
+  "profile_families": {
+    "software_it": [
+      "it_software"
+    ],
+    "ai_data": [
+      "it_software"
+    ],
+    "cybersecurity_network": [
+      "it_software"
+    ],
+    "cloud_devops": [
+      "it_software"
+    ],
+    "game_interactive": [
+      "it_software"
+    ],
+    "education_technology": [
+      "education",
+      "it_software"
+    ],
+    "engineering_mechanical": [
+      "engineering"
+    ],
+    "engineering_electrical": [
+      "engineering"
+    ],
+    "automotive_transport": [
+      "engineering"
+    ],
+    "energy_renewable": [
+      "engineering"
+    ],
+    "aviation_maritime": [
+      "engineering"
+    ],
+    "construction_architecture": [
+      "architecture_construction"
+    ],
+    "geospatial_gis": [
+      "architecture_construction"
+    ],
+    "business_management": [
+      "business_management"
+    ],
+    "logistics_supplychain": [
+      "business_management"
+    ],
+    "entrepreneurship_innovation": [
+      "business_management"
+    ],
+    "ecommerce_digital": [
+      "business_management"
+    ],
+    "hr_people_ops": [
+      "business_management"
+    ],
+    "marketing_media": [
+      "marketing_communication"
+    ],
+    "content_media": [
+      "marketing_communication"
+    ],
+    "journalism_investigation": [
+      "marketing_communication"
+    ],
+    "event_creative": [
+      "marketing_communication"
+    ],
+    "finance_accounting": [
+      "finance_economics"
+    ],
+    "economics_research": [
+      "finance_economics"
+    ],
+    "design_multimedia": [
+      "arts_design"
+    ],
+    "product_ux_research": [
+      "arts_design"
+    ],
+    "language_international": [
+      "humanities_language"
+    ],
+    "public_diplomacy": [
+      "law_public"
+    ],
+    "law_publicservice": [
+      "law_public"
+    ],
+    "psychology_education": [
+      "psychology_counseling",
+      "education"
+    ],
+    "social_impact": [
+      "social_work"
+    ],
+    "healthcare_biology": [
+      "health_medicine"
+    ],
+    "food_nutrition": [
+      "health_medicine"
+    ],
+    "biotech_pharma": [
+      "life_sciences"
+    ],
+    "environment_agriculture": [
+      "life_sciences"
+    ],
+    "veterinary_animal": [
+      "life_sciences"
+    ],
+    "science_research": [
+      "physical_sciences_math"
+    ],
+    "chemistry_materials": [
+      "physical_sciences_math"
+    ],
+    "hospitality_tourism": [
+      "hospitality_tourism"
+    ],
+    "sports_wellness": [
+      "sports_fitness"
+    ]
+  },
+  "training_data": "Open-Source Psychometrics Project RIASEC 2018 (CC BY-NC-SA 4.0), cleaned & labelled — see reports/data_report.json",
+  "metrics_adaptive_test": {
+    "top1": 0.2243,
+    "top3": 0.4694,
+    "top5": 0.6205,
+    "macro_top3": 0.3566,
+    "macro_f1": 0.1284,
+    "balanced_acc": 0.1411,
+    "log_loss": 2.4721,
+    "ece": 0.0404
+  },
+  "intended_use": "Gợi ý nhóm ngành để khám phá, không phải kết luận. Không dùng để tuyển chọn hay sàng lọc.",
+  "limitations": [
+    "Dữ liệu là người dùng Internet nói tiếng Anh 2015-2018, chủ yếu ngoài Việt Nam.",
+    "Nhãn là ngành đang/đã học, không phải mức độ hài lòng hay thành công.",
+    "Chỉ dùng sở thích RIASEC; giá trị nghề và phong cách làm việc do luật trong app xử lý.",
+    "Không dùng giới tính, tuổi làm đặc trưng."
+  ]
+}

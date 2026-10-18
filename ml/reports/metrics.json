@@ -1,0 +1,526 @@
+{
+  "n_samples": 62312,
+  "classes": [
+    "it_software",
+    "engineering",
+    "architecture_construction",
+    "business_management",
+    "marketing_communication",
+    "finance_economics",
+    "arts_design",
+    "humanities_language",
+    "psychology_counseling",
+    "education",
+    "social_work",
+    "law_public",
+    "health_medicine",
+    "life_sciences",
+    "physical_sciences_math",
+    "hospitality_tourism",
+    "sports_fitness"
+  ],
+  "psychometrics": {
+    "cronbach_alpha": {
+      "R": 0.87,
+      "I": 0.89,
+      "A": 0.856,
+      "S": 0.834,
+      "E": 0.834,
+      "C": 0.898
+    },
+    "efa_items_loading_on_own_scale": "48/48",
+    "efa_factor_labels": [
+      "C",
+      "I",
+      "S",
+      "A",
+      "R",
+      "E"
+    ]
+  },
+  "cross_validation": {
+    "prior (đoán theo tần suất)": {
+      "top1": [
+        0.1988,
+        0.0
+      ],
+      "top3": [
+        0.3877,
+        0.0001
+      ],
+      "top5": [
+        0.5302,
+        0.0
+      ],
+      "macro_top3": [
+        0.1765,
+        0.0
+      ],
+      "macro_f1": [
+        0.0195,
+        0.0
+      ],
+      "balanced_acc": [
+        0.0588,
+        0.0
+      ],
+      "log_loss": [
+        2.6202,
+        0.0001
+      ],
+      "ece": [
+        0.0001,
+        0.0
+      ]
+    },
+    "rule-based cosine (hệ thống hiện tại)": {
+      "top1": [
+        0.0993,
+        0.0009
+      ],
+      "top3": [
+        0.3222,
+        0.003
+      ],
+      "top5": [
+        0.4699,
+        0.0037
+      ],
+      "macro_top3": [
+        0.2922,
+        0.0042
+      ],
+      "macro_f1": [
+        0.1002,
+        0.0012
+      ],
+      "balanced_acc": [
+        0.1076,
+        0.0014
+      ],
+      "log_loss": [
+        3.1764,
+        0.0061
+      ],
+      "ece": [
+        0.112,
+        0.0009
+      ]
+    },
+    "logistic regression": {
+      "top1": [
+        0.2495,
+        0.0026
+      ],
+      "top3": [
+        0.4999,
+        0.0043
+      ],
+      "top5": [
+        0.6493,
+        0.0037
+      ],
+      "macro_top3": [
+        0.3259,
+        0.0042
+      ],
+      "macro_f1": [
+        0.0877,
+        0.0021
+      ],
+      "balanced_acc": [
+        0.1162,
+        0.0017
+      ],
+      "log_loss": [
+        2.4009,
+        0.0023
+      ],
+      "ece": [
+        0.0086,
+        0.0025
+      ]
+    },
+    "random forest": {
+      "top1": [
+        0.2463,
+        0.0017
+      ],
+      "top3": [
+        0.4931,
+        0.0013
+      ],
+      "top5": [
+        0.6405,
+        0.0037
+      ],
+      "macro_top3": [
+        0.3222,
+        0.002
+      ],
+      "macro_f1": [
+        0.0966,
+        0.0012
+      ],
+      "balanced_acc": [
+        0.1186,
+        0.0011
+      ],
+      "log_loss": [
+        2.4128,
+        0.0027
+      ],
+      "ece": [
+        0.0063,
+        0.0015
+      ]
+    },
+    "mlp": {
+      "top1": [
+        0.2503,
+        0.0029
+      ],
+      "top3": [
+        0.4993,
+        0.0023
+      ],
+      "top5": [
+        0.6487,
+        0.0039
+      ],
+      "macro_top3": [
+        0.3307,
+        0.003
+      ],
+      "macro_f1": [
+        0.0966,
+        0.0038
+      ],
+      "balanced_acc": [
+        0.1217,
+        0.0033
+      ],
+      "log_loss": [
+        2.399,
+        0.0017
+      ],
+      "ece": [
+        0.0109,
+        0.0035
+      ]
+    },
+    "catboost": {
+      "top1": [
+        0.2443,
+        0.0015
+      ],
+      "top3": [
+        0.4916,
+        0.0034
+      ],
+      "top5": [
+        0.6367,
+        0.002
+      ],
+      "macro_top3": [
+        0.3283,
+        0.0037
+      ],
+      "macro_f1": [
+        0.1028,
+        0.0021
+      ],
+      "balanced_acc": [
+        0.1211,
+        0.0012
+      ],
+      "log_loss": [
+        2.4284,
+        0.0042
+      ],
+      "ece": [
+        0.0173,
+        0.0015
+      ]
+    }
+  },
+  "selected_model": "mlp",
+  "label_shift": {
+    "beta_grid_harmonic_top3": {
+      "0.0": 0.3973,
+      "0.25": 0.4102,
+      "0.5": 0.4127,
+      "0.75": 0.4089,
+      "1.0": 0.3831
+    },
+    "selected_beta": 0.5
+  },
+  "test": {
+    "full_48_items": {
+      "model_uncalibrated": {
+        "top1": 0.2621,
+        "top3": 0.5166,
+        "top5": 0.666,
+        "macro_top3": 0.3399,
+        "macro_f1": 0.1069,
+        "balanced_acc": 0.1282,
+        "log_loss": 2.3593,
+        "ece": 0.018
+      },
+      "model_calibrated": {
+        "top1": 0.2621,
+        "top3": 0.5166,
+        "top5": 0.666,
+        "macro_top3": 0.3399,
+        "macro_f1": 0.1069,
+        "balanced_acc": 0.1282,
+        "log_loss": 2.3609,
+        "ece": 0.0249
+      },
+      "model_deployed": {
+        "top1": 0.2493,
+        "top3": 0.5045,
+        "top5": 0.655,
+        "macro_top3": 0.3848,
+        "macro_f1": 0.1383,
+        "balanced_acc": 0.1537,
+        "log_loss": 2.4184,
+        "ece": 0.0726
+      },
+      "rule_baseline": {
+        "top1": 0.1009,
+        "top3": 0.3282,
+        "top5": 0.4807,
+        "macro_top3": 0.2966,
+        "macro_f1": 0.0997,
+        "balanced_acc": 0.1087,
+        "log_loss": 3.0682,
+        "ece": 0.0923
+      },
+      "prior": {
+        "top1": 0.1988,
+        "top3": 0.3876,
+        "top5": 0.5302,
+        "macro_top3": 0.1765,
+        "macro_f1": 0.0195,
+        "balanced_acc": 0.0588,
+        "log_loss": 2.6202,
+        "ece": 0.0
+      }
+    },
+    "adaptive_3_4_items_per_scale": {
+      "model_uncalibrated": {
+        "top1": 0.246,
+        "top3": 0.4868,
+        "top5": 0.6389,
+        "macro_top3": 0.3173,
+        "macro_f1": 0.0986,
+        "balanced_acc": 0.1201,
+        "log_loss": 2.4161,
+        "ece": 0.0068
+      },
+      "model_calibrated": {
+        "top1": 0.246,
+        "top3": 0.4868,
+        "top5": 0.6389,
+        "macro_top3": 0.3173,
+        "macro_f1": 0.0986,
+        "balanced_acc": 0.1201,
+        "log_loss": 2.4154,
+        "ece": 0.0071
+      },
+      "model_deployed": {
+        "top1": 0.2243,
+        "top3": 0.4694,
+        "top5": 0.6205,
+        "macro_top3": 0.3566,
+        "macro_f1": 0.1284,
+        "balanced_acc": 0.1411,
+        "log_loss": 2.4721,
+        "ece": 0.0404
+      },
+      "rule_baseline": {
+        "top1": 0.0979,
+        "top3": 0.31,
+        "top5": 0.4646,
+        "macro_top3": 0.2819,
+        "macro_f1": 0.0961,
+        "balanced_acc": 0.1054,
+        "log_loss": 3.2299,
+        "ece": 0.1224
+      },
+      "prior": {
+        "top1": 0.1988,
+        "top3": 0.3876,
+        "top5": 0.5302,
+        "macro_top3": 0.1765,
+        "macro_f1": 0.0195,
+        "balanced_acc": 0.0588,
+        "log_loss": 2.6202,
+        "ece": 0.0
+      }
+    },
+    "short_2_items_per_scale": {
+      "model_uncalibrated": {
+        "top1": 0.2284,
+        "top3": 0.4741,
+        "top5": 0.6181,
+        "macro_top3": 0.3134,
+        "macro_f1": 0.0942,
+        "balanced_acc": 0.1143,
+        "log_loss": 2.4756,
+        "ece": 0.0301
+      },
+      "model_calibrated": {
+        "top1": 0.2284,
+        "top3": 0.4741,
+        "top5": 0.6181,
+        "macro_top3": 0.3134,
+        "macro_f1": 0.0942,
+        "balanced_acc": 0.1143,
+        "log_loss": 2.4721,
+        "ece": 0.0225
+      },
+      "model_deployed": {
+        "top1": 0.2031,
+        "top3": 0.4443,
+        "top5": 0.596,
+        "macro_top3": 0.337,
+        "macro_f1": 0.1153,
+        "balanced_acc": 0.1288,
+        "log_loss": 2.5267,
+        "ece": 0.0114
+      },
+      "rule_baseline": {
+        "top1": 0.0937,
+        "top3": 0.2955,
+        "top5": 0.4436,
+        "macro_top3": 0.2761,
+        "macro_f1": 0.0937,
+        "balanced_acc": 0.1015,
+        "log_loss": 3.4152,
+        "ece": 0.1518
+      },
+      "prior": {
+        "top1": 0.1988,
+        "top3": 0.3876,
+        "top5": 0.5302,
+        "macro_top3": 0.1765,
+        "macro_f1": 0.0195,
+        "balanced_acc": 0.0588,
+        "log_loss": 2.6202,
+        "ece": 0.0
+      }
+    }
+  },
+  "temperature": 1.03,
+  "per_family_top3_recall": {
+    "it_software": 0.371,
+    "engineering": 0.528,
+    "architecture_construction": 0.28,
+    "business_management": 0.615,
+    "marketing_communication": 0.279,
+    "finance_economics": 0.4,
+    "arts_design": 0.431,
+    "humanities_language": 0.495,
+    "psychology_counseling": 0.736,
+    "education": 0.326,
+    "social_work": 0.164,
+    "law_public": 0.056,
+    "health_medicine": 0.504,
+    "life_sciences": 0.523,
+    "physical_sciences_math": 0.238,
+    "hospitality_tourism": 0.024,
+    "sports_fitness": 0.092
+  },
+  "fairness_top3_by_gender": {
+    "male": 0.434,
+    "female": 0.4864
+  },
+  "scale_importance_top3_drop": {
+    "R": 0.0429,
+    "I": 0.0328,
+    "A": 0.0177,
+    "S": 0.0661,
+    "E": 0.0106,
+    "C": 0.0089
+  },
+  "adaptive_testing_top3": {
+    "questions": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "balanced_information_gain": [
+      0.4107,
+      0.4193,
+      0.418,
+      0.422,
+      0.4327,
+      0.4427,
+      0.4533,
+      0.4553,
+      0.4513,
+      0.4627,
+      0.464,
+      0.46,
+      0.466
+    ],
+    "information_gain": [
+      0.4107,
+      0.4193,
+      0.4193,
+      0.4253,
+      0.4313,
+      0.428,
+      0.4253,
+      0.4293,
+      0.434,
+      0.438,
+      0.444,
+      0.4487,
+      0.4413
+    ],
+    "round_robin": [
+      0.4107,
+      0.4187,
+      0.408,
+      0.4253,
+      0.4413,
+      0.4487,
+      0.4533,
+      0.468,
+      0.476,
+      0.4653,
+      0.458,
+      0.4627,
+      0.466
+    ],
+    "random": [
+      0.4107,
+      0.4127,
+      0.424,
+      0.4287,
+      0.4333,
+      0.4427,
+      0.444,
+      0.446,
+      0.4473,
+      0.4493,
+      0.452,
+      0.458,
+      0.458
+    ]
+  },
+  "duration_sec": 426.5
+}

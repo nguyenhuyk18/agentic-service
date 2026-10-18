@@ -1,116 +1,90 @@
 from langchain_core.tools import tool
-from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
-import os
-import aiosmtplib
 from pathlib import Path
+import asyncio
+import os
+import re
+import requests
 
-from email.message import EmailMessage
-
-env_path = Path(__file__).resolve().parent.parent / '.env'
-load_dotenv(env_path)
-
-MONGO_URL = os.getenv("MONGODB_URI")
-DATABASE_NAME = os.getenv("DB_NAME_USER")
-
-mongo_client = AsyncIOMotorClient(MONGO_URL)
-mongo_db = mongo_client[DATABASE_NAME]
-users_collection = mongo_db["user"]
-
-
-async def _to_list(cursor):
-    return [doc async for doc in cursor]
+load_dotenv(Path(__file__).resolve().parent.parent / '.env')
 
 
 class tools_func:
+    """Allow-listed MajorGuide tools. All data access goes through the BFF."""
 
-    @tool
-    async def sending_email(email1: str, content: str) -> dict:
-        """
-        Gửi email đến một người nào đó khi user yêu cầu.
-        """
-        try:
-            message = EmailMessage()
-            message["From"] = os.getenv("MAIL_USER")
-            message["To"] = email1
-            message["Subject"] = "Thông báo từ LMS IUH"
-            message.set_content(content)
+    def __init__(self, authorization: str | None = None):
+        self.authorization = authorization or ''
+        # Bind methods before creating schemas so self is never an LLM argument.
+        for name in ('dashboard_summary', 'all_expert', 'search_users',
+                     'pending_schedule_registrations', 'draft_email', 'accounting_summary'):
+            setattr(self, name, tool(getattr(self, name)))
+        self.bff_url = os.getenv('BFF_INTERNAL_URL', 'http://localhost:3300/api/v2').rstrip('/')
 
-            html_content = f"""
-            <div style="font-family: Arial; line-height: 1.8;">
-                <h2>Tin nhắn mới từ ADMIN</h2>
-                <p>{content}</p>
-            </div>
-            """
-            message.add_alternative(html_content, subtype="html")
+    async def _get(self, path: str, params: dict | None = None) -> dict:
+        if not self.authorization.lower().startswith('bearer '):
+            return {'ok': False, 'error': 'Thiếu phiên đăng nhập admin hợp lệ.'}
 
-            await aiosmtplib.send(
-                message,
-                hostname=os.getenv("MAIL_HOST"),
-                port=int(os.getenv("MAIL_PORT")),
-                username=os.getenv("MAIL_USER"),
-                password=os.getenv("MAIL_PASS"),
-                start_tls=True
+        def request_data():
+            response = requests.get(
+                f'{self.bff_url}{path}',
+                params=params or {},
+                headers={'Authorization': self.authorization, 'X-AI-Tool-Request': '1'},
+                timeout=20,
             )
-            return {"message": f"Đã gửi email đến {email1}"}
-        except Exception as e:
-            print(e)
-            return {"message": "Gửi email thất bại", "error": str(e)}
+            response.raise_for_status()
+            return response.json()
 
-    @tool
-    async def all_expert() -> dict:
-        """
-        Liệt kê toàn bộ chuyên gia có trong hệ thống.
-        Trả về danh sách tên, chuyên ngành, cấp bậc, nơi giảng dạy, giá và trạng thái của mỗi chuyên gia.
-        """
         try:
-            print(f"[all_expert] DB={DATABASE_NAME}, URI={MONGO_URL}")
-            cursor = users_collection.find({"roleName": "expert"})
-            print(f"[all_expert] Cursor type: {type(cursor)}")
+            payload = await asyncio.to_thread(request_data)
+            return {'ok': True, 'data': payload.get('data', payload)}
+        except requests.HTTPError as error:
+            status = error.response.status_code if error.response is not None else 502
+            return {'ok': False, 'error': f'API nghiệp vụ trả lỗi HTTP {status}.'}
+        except Exception as error:
+            return {'ok': False, 'error': f'Không thể kết nối API nghiệp vụ: {type(error).__name__}'}
 
-            docs = await _to_list(cursor)
-            print(f"[all_expert] Raw docs count: {len(docs)}")
+    async def dashboard_summary(self) -> dict:
+        """Lấy số liệu dashboard thật: booking, doanh thu, trạng thái và chuyên gia nổi bật."""
+        return await self._get('/book/dashboard')
 
-            if docs:
-                print(f"[all_expert] First doc keys: {list(docs[0].keys())}")
-                print(f"[all_expert] First doc roleName: {docs[0].get('roleName')}")
-                print(f"[all_expert] First doc expertProfile: {docs[0].get('expertProfile')}")
+    async def all_expert(self, query: str = '', limit: int = 10) -> dict:
+        """Tìm danh sách chuyên gia thật. query là tên cần tìm; limit từ 1 đến 20."""
+        safe_limit = max(1, min(int(limit), 20))
+        return await self._get('/user', {'role': 'expert', 'name': query[:100], 'page': 1, 'limit': safe_limit})
 
-            level_map = {
-                "bachelor": "Cử nhân",
-                "master": "Thạc sĩ",
-                "doctor": "Tiến sĩ",
-                "professor": "Giáo sư",
-            }
+    async def search_users(self, query: str = '', role: str = '', status: str = '', page: int = 1, limit: int = 10) -> dict:
+        """Tìm người dùng MajorGuide theo tên, role member/expert/admin và trạng thái tài khoản."""
+        safe_role = role if role in {'member', 'expert', 'admin', ''} else ''
+        return await self._get('/user', {
+            'name': query[:100], 'role': safe_role, 'status': status[:30],
+            'page': max(1, int(page)), 'limit': max(1, min(int(limit), 20)),
+        })
 
-            experts = []
-            for doc in docs:
-                profile = doc.get("expertProfile") or {}
-                level_raw = profile.get("level") or ""
-                level_display = level_map.get(level_raw.lower(), level_raw or "Không rõ")
+    async def pending_schedule_registrations(self, status: str = '', page: int = 1) -> dict:
+        """Lấy danh sách đơn đăng ký lịch tư vấn của chuyên gia đang chờ hoặc theo trạng thái yêu cầu."""
+        return await self._get('/register', {'status': status[:30], 'page': max(1, int(page))})
 
-                experts.append({
-                    "id": str(doc.get("_id", "")),
-                    "name": doc.get("name") or "Không rõ",
-                    "email": doc.get("email") or "Không rõ",
-                    "major": profile.get("major") or "Không rõ",
-                    "level": level_display,
-                    "teachAt": profile.get("teachAt") or "Không rõ",
-                    "information": profile.get("information") or "",
-                    "price": profile.get("price") or 0,
-                    "status": doc.get("statusAccount") or "Không rõ",
-                    "avatar": doc.get("fileAvartarUrl") or "",
-                })
+    async def draft_email(self, email1: str, subject: str, content: str) -> dict:
+        """Chỉ tạo bản nháp email cho đúng một người nhận. Không gửi email và cần admin xác nhận."""
+        email = email1.strip().lower()
+        if not re.fullmatch(r'[^\s@,;<>]+@[^\s@,;<>]+\.[^\s@,;<>]+', email):
+            return {'ok': False, 'error': 'Địa chỉ email không hợp lệ.'}
+        if not subject.strip() or not content.strip():
+            return {'ok': False, 'error': 'Cần cung cấp đủ tiêu đề và nội dung email.'}
+        if len(subject) > 150 or len(content) > 5000:
+            return {'ok': False, 'error': 'Tiêu đề hoặc nội dung email vượt giới hạn.'}
+        return {
+            'ok': True,
+            'action': {
+                'type': 'email_draft', 'risk': 'write', 'requires_confirmation': True,
+                'recipient': email, 'subject': subject.strip(), 'content': content.strip(),
+            },
+            'message': 'Đã tạo bản nháp. Email chưa được gửi và cần admin xác nhận.',
+        }
 
-            if not experts:
-                return {"message": "Hiện tại không có chuyên gia nào trong hệ thống.", "experts": []}
-
-            return {
-                "message": f"Tìm thấy {len(experts)} chuyên gia trong hệ thống.",
-                "total": len(experts),
-                "experts": experts
-            }
-
-        except Exception as e:
-            print(f"[all_expert] Lỗi truy vấn MongoDB: {e}")
-            return {"message": "Không thể truy vấn danh sách chuyên gia.", "error": str(e)}
+    async def accounting_summary(self, start: str = '', end: str = '') -> dict:
+        """Xem sổ thu chi: tổng thu/chi, tiền thu từ booking (booking.gross), doanh thu phí nền tảng
+        (booking.platformRevenue), khoản phải trả chuyên gia (booking.expertPayable) và lợi nhuận (profit).
+        Doanh thu thật của MajorGuide là platformRevenue, không phải tổng tiền thu. start/end có dạng YYYY-MM-DD."""
+        params = {key: value for key, value in {'start': start, 'end': end}.items() if value}
+        return await self._get('/accounting/summary', params)

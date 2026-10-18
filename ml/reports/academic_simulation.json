@@ -1,0 +1,177 @@
+{
+  "type": "SIMULATION — not an accuracy claim about Vietnamese students",
+  "sources": {
+    "interests_and_majors": "Open-Source Psychometrics Project RIASEC 2018 (real)",
+    "grades": "THPT national exam 2024, ~1.06M candidates (real distributions and subject correlations)",
+    "link_between_them": "assumption with parameter λ (see module docstring)"
+  },
+  "items_per_scale": 5,
+  "gamma_selected": 1.5,
+  "gamma_selection": "max mean harmonic(top3, macro_top3) over scenarios independent, λ=0.5, λ=1 (validation split)",
+  "gamma_grid_by_scenario": {
+    "0.0": {
+      "independent": 0.419,
+      "0.5": 0.419,
+      "1.0": 0.419
+    },
+    "0.5": {
+      "independent": 0.4162,
+      "0.5": 0.4337,
+      "1.0": 0.4364
+    },
+    "1.0": {
+      "independent": 0.412,
+      "0.5": 0.4455,
+      "1.0": 0.451
+    },
+    "1.5": {
+      "independent": 0.4036,
+      "0.5": 0.4551,
+      "1.0": 0.4592
+    },
+    "2.0": {
+      "independent": 0.3915,
+      "0.5": 0.4567,
+      "1.0": 0.4649
+    },
+    "3.0": {
+      "independent": 0.3711,
+      "0.5": 0.4544,
+      "1.0": 0.4607
+    },
+    "4.0": {
+      "independent": 0.3567,
+      "0.5": 0.4466,
+      "1.0": 0.4543
+    }
+  },
+  "results": [
+    {
+      "lambda": "independent",
+      "interest_only": {
+        "top3": 0.4858,
+        "macro_top3": 0.3709,
+        "top1": 0.2359
+      },
+      "knowledge_fusion": {
+        "top3": 0.4706,
+        "macro_top3": 0.3562,
+        "top1": 0.2293
+      },
+      "trained_joint_model": {
+        "top3": 0.476,
+        "macro_top3": 0.3553,
+        "top1": 0.2175
+      }
+    },
+    {
+      "lambda": 0.0,
+      "interest_only": {
+        "top3": 0.4858,
+        "macro_top3": 0.3709,
+        "top1": 0.2359
+      },
+      "knowledge_fusion": {
+        "top3": 0.5097,
+        "macro_top3": 0.3939,
+        "top1": 0.2572
+      },
+      "trained_joint_model": {
+        "top3": 0.5392,
+        "macro_top3": 0.428,
+        "top1": 0.2604
+      }
+    },
+    {
+      "lambda": 0.25,
+      "interest_only": {
+        "top3": 0.4858,
+        "macro_top3": 0.3709,
+        "top1": 0.2359
+      },
+      "knowledge_fusion": {
+        "top3": 0.5137,
+        "macro_top3": 0.3971,
+        "top1": 0.2556
+      },
+      "trained_joint_model": {
+        "top3": 0.5351,
+        "macro_top3": 0.4256,
+        "top1": 0.2552
+      }
+    },
+    {
+      "lambda": 0.5,
+      "interest_only": {
+        "top3": 0.4858,
+        "macro_top3": 0.3709,
+        "top1": 0.2359
+      },
+      "knowledge_fusion": {
+        "top3": 0.5161,
+        "macro_top3": 0.3986,
+        "top1": 0.2616
+      },
+      "trained_joint_model": {
+        "top3": 0.535,
+        "macro_top3": 0.4216,
+        "top1": 0.258
+      }
+    },
+    {
+      "lambda": 0.75,
+      "interest_only": {
+        "top3": 0.4858,
+        "macro_top3": 0.3709,
+        "top1": 0.2359
+      },
+      "knowledge_fusion": {
+        "top3": 0.5203,
+        "macro_top3": 0.4014,
+        "top1": 0.2632
+      },
+      "trained_joint_model": {
+        "top3": 0.5336,
+        "macro_top3": 0.4216,
+        "top1": 0.2555
+      }
+    },
+    {
+      "lambda": 1.0,
+      "interest_only": {
+        "top3": 0.4858,
+        "macro_top3": 0.3709,
+        "top1": 0.2359
+      },
+      "knowledge_fusion": {
+        "top3": 0.5255,
+        "macro_top3": 0.4066,
+        "top1": 0.2649
+      },
+      "trained_joint_model": {
+        "top3": 0.5388,
+        "macro_top3": 0.4262,
+        "top1": 0.2551
+      }
+    },
+    {
+      "lambda": 1.5,
+      "interest_only": {
+        "top3": 0.4858,
+        "macro_top3": 0.3709,
+        "top1": 0.2359
+      },
+      "knowledge_fusion": {
+        "top3": 0.5271,
+        "macro_top3": 0.4099,
+        "top1": 0.2683
+      },
+      "trained_joint_model": {
+        "top3": 0.5469,
+        "macro_top3": 0.4341,
+        "top1": 0.2614
+      }
+    }
+  ],
+  "duration_sec": 70.2
+}

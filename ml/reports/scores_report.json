@@ -1,0 +1,203 @@
+{
+  "source": "https://huggingface.co/spaces/ngocminhta/National-Grad-Score-Ranking-1",
+  "candidates": 1060013,
+  "subjects": {
+    "toan": {
+      "n": 1044804,
+      "mean": 6.448,
+      "std": 1.557
+    },
+    "ngu_van": {
+      "n": 1048984,
+      "mean": 7.231,
+      "std": 1.33
+    },
+    "ngoai_ngu": {
+      "n": 912435,
+      "mean": 5.522,
+      "std": 1.88
+    },
+    "vat_li": {
+      "n": 345554,
+      "mean": 6.667,
+      "std": 1.631
+    },
+    "hoa_hoc": {
+      "n": 346511,
+      "mean": 6.681,
+      "std": 1.641
+    },
+    "sinh_hoc": {
+      "n": 342372,
+      "mean": 6.284,
+      "std": 1.245
+    },
+    "lich_su": {
+      "n": 706166,
+      "mean": 6.57,
+      "std": 1.463
+    },
+    "dia_li": {
+      "n": 704622,
+      "mean": 7.194,
+      "std": 1.284
+    },
+    "gdcd": {
+      "n": 583534,
+      "mean": 8.157,
+      "std": 1.043
+    }
+  },
+  "combinations": {
+    "A00": {
+      "n": 343800,
+      "median": 21.3,
+      "p90": 24.95
+    },
+    "A01": {
+      "n": 329761,
+      "median": 20.75,
+      "p90": 24.65
+    },
+    "B00": {
+      "n": 342291,
+      "median": 20.75,
+      "p90": 24.25
+    },
+    "B08": {
+      "n": 327845,
+      "median": 20.2,
+      "p90": 23.8
+    },
+    "C00": {
+      "n": 704008,
+      "median": 21.25,
+      "p90": 25.25
+    },
+    "D01": {
+      "n": 908866,
+      "median": 19.65,
+      "p90": 24.25
+    },
+    "D07": {
+      "n": 328435,
+      "median": 20.7,
+      "p90": 24.3
+    },
+    "D14": {
+      "n": 576837,
+      "median": 19.1,
+      "p90": 24.0
+    },
+    "D15": {
+      "n": 576687,
+      "median": 19.8,
+      "p90": 24.35
+    }
+  },
+  "block_share": {
+    "khtn": 0.326,
+    "khxh": 0.6662
+  },
+  "subject_correlation": {
+    "toan": {
+      "toan": 1.0,
+      "ngu_van": 0.424,
+      "ngoai_ngu": 0.566,
+      "vat_li": 0.562,
+      "hoa_hoc": 0.461,
+      "sinh_hoc": 0.297,
+      "lich_su": 0.484,
+      "dia_li": 0.492,
+      "gdcd": 0.467
+    },
+    "ngu_van": {
+      "toan": 0.424,
+      "ngu_van": 1.0,
+      "ngoai_ngu": 0.335,
+      "vat_li": 0.178,
+      "hoa_hoc": 0.174,
+      "sinh_hoc": 0.254,
+      "lich_su": 0.468,
+      "dia_li": 0.495,
+      "gdcd": 0.477
+    },
+    "ngoai_ngu": {
+      "toan": 0.566,
+      "ngu_van": 0.335,
+      "ngoai_ngu": 1.0,
+      "vat_li": 0.283,
+      "hoa_hoc": 0.063,
+      "sinh_hoc": 0.243,
+      "lich_su": 0.395,
+      "dia_li": 0.343,
+      "gdcd": 0.372
+    },
+    "vat_li": {
+      "toan": 0.562,
+      "ngu_van": 0.178,
+      "ngoai_ngu": 0.283,
+      "vat_li": 1.0,
+      "hoa_hoc": 0.385,
+      "sinh_hoc": 0.184,
+      "lich_su": NaN,
+      "dia_li": NaN,
+      "gdcd": NaN
+    },
+    "hoa_hoc": {
+      "toan": 0.461,
+      "ngu_van": 0.174,
+      "ngoai_ngu": 0.063,
+      "vat_li": 0.385,
+      "hoa_hoc": 1.0,
+      "sinh_hoc": 0.412,
+      "lich_su": NaN,
+      "dia_li": NaN,
+      "gdcd": NaN
+    },
+    "sinh_hoc": {
+      "toan": 0.297,
+      "ngu_van": 0.254,
+      "ngoai_ngu": 0.243,
+      "vat_li": 0.184,
+      "hoa_hoc": 0.412,
+      "sinh_hoc": 1.0,
+      "lich_su": NaN,
+      "dia_li": NaN,
+      "gdcd": NaN
+    },
+    "lich_su": {
+      "toan": 0.484,
+      "ngu_van": 0.468,
+      "ngoai_ngu": 0.395,
+      "vat_li": NaN,
+      "hoa_hoc": NaN,
+      "sinh_hoc": NaN,
+      "lich_su": 1.0,
+      "dia_li": 0.66,
+      "gdcd": 0.573
+    },
+    "dia_li": {
+      "toan": 0.492,
+      "ngu_van": 0.495,
+      "ngoai_ngu": 0.343,
+      "vat_li": NaN,
+      "hoa_hoc": NaN,
+      "sinh_hoc": NaN,
+      "lich_su": 0.66,
+      "dia_li": 1.0,
+      "gdcd": 0.606
+    },
+    "gdcd": {
+      "toan": 0.467,
+      "ngu_van": 0.477,
+      "ngoai_ngu": 0.372,
+      "vat_li": NaN,
+      "hoa_hoc": NaN,
+      "sinh_hoc": NaN,
+      "lich_su": 0.573,
+      "dia_li": 0.606,
+      "gdcd": 1.0
+    }
+  }
+}

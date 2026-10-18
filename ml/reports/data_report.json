@@ -1,0 +1,134 @@
+{
+  "source": "https://openpsychometrics.org/_rawdata/RIASEC_data12Dec2018.zip",
+  "license": "CC BY-NC-SA 4.0 (Open-Source Psychometrics Project)",
+  "cleaning_steps": {
+    "raw": 145828,
+    "complete_items": 135764,
+    "passed_fake_word_check": 108719,
+    "not_straight_lining": 108474,
+    "plausible_duration": 107279,
+    "plausible_age": 107232,
+    "labelled_major": 62312
+  },
+  "families": {
+    "it_software": {
+      "name": "Công nghệ thông tin",
+      "n": 2617
+    },
+    "engineering": {
+      "name": "Kỹ thuật",
+      "n": 4041
+    },
+    "architecture_construction": {
+      "name": "Kiến trúc & Xây dựng",
+      "n": 1679
+    },
+    "business_management": {
+      "name": "Kinh doanh & Quản trị",
+      "n": 6890
+    },
+    "marketing_communication": {
+      "name": "Marketing & Truyền thông",
+      "n": 2901
+    },
+    "finance_economics": {
+      "name": "Tài chính, Kế toán & Kinh tế",
+      "n": 3474
+    },
+    "arts_design": {
+      "name": "Nghệ thuật & Thiết kế",
+      "n": 3533
+    },
+    "humanities_language": {
+      "name": "Ngôn ngữ & Nhân văn",
+      "n": 4845
+    },
+    "psychology_counseling": {
+      "name": "Tâm lý học",
+      "n": 12390
+    },
+    "education": {
+      "name": "Giáo dục",
+      "n": 2670
+    },
+    "social_work": {
+      "name": "Xã hội học & Công tác xã hội",
+      "n": 2136
+    },
+    "law_public": {
+      "name": "Luật & Khu vực công",
+      "n": 2964
+    },
+    "health_medicine": {
+      "name": "Y tế & Điều dưỡng",
+      "n": 4874
+    },
+    "life_sciences": {
+      "name": "Khoa học sự sống",
+      "n": 2966
+    },
+    "physical_sciences_math": {
+      "name": "Khoa học tự nhiên & Toán",
+      "n": 3007
+    },
+    "hospitality_tourism": {
+      "name": "Du lịch & Dịch vụ",
+      "n": 616
+    },
+    "sports_fitness": {
+      "name": "Thể thao & Vận động",
+      "n": 709
+    }
+  },
+  "imbalance_ratio": 20.1,
+  "scale_means": {
+    "R": 2.099,
+    "I": 3.014,
+    "A": 2.927,
+    "S": 3.376,
+    "E": 2.582,
+    "C": 2.434
+  },
+  "unmapped_examples": {
+    "no": 320,
+    "undecided": 293,
+    "general studies": 187,
+    "none": 167,
+    "-": 150,
+    "nil": 67,
+    "undeclared": 61,
+    "administration": 60,
+    "general": 47,
+    "na": 41,
+    "idk": 39,
+    "not sure": 37,
+    "i dont know": 36,
+    "interdisciplinary studies": 30,
+    "technology": 29,
+    "cosmetology": 25,
+    "american studies": 23,
+    "yes": 22,
+    "acting": 20,
+    "international affairs": 19,
+    "pre med": 19,
+    "filipino": 19,
+    "stem": 19,
+    "senior high school": 19,
+    "not yet": 18,
+    "pschology": 18,
+    "lawyer": 17,
+    "mechanical": 16,
+    "phychology": 15,
+    "psicologia": 14,
+    "human service": 14,
+    "econ": 14,
+    "social": 14,
+    "russian": 13,
+    "rehab services": 13,
+    "philology": 13,
+    "psikologi": 12,
+    "recreation": 12,
+    "agronomy": 12,
+    "unknown": 12
+  }
+}

@@ -1,3 +1,9 @@
 venv
 apps/.env
 apps/_pycache_
+# Raw/cleaned training data is downloaded by ml/career/prepare_data.py
+ml/data/
+__pycache__/
+
+# training logs
+ml/catboost_info/
