@@ -20,3 +20,6 @@ numpy
 scipy
 joblib
 matplotlib
+
+langchain-openai>=1.7,<2
+openai>=2,<4

@@ -72,7 +72,7 @@ class RagRegressionTests(unittest.IsolatedAsyncioTestCase):
         controller = AgenticController()
         with patch('apps.controllers.AgenticController.get_embedding_model', return_value=model), patch('apps.controllers.AgenticController.requests.post', return_value=response) as post, patch.object(controller, '_get_llm_client', return_value=llm):
             result = await controller.callAiFromClient('nghề kỹ sư dữ liệu')
-            self.assertEqual(result['generation'], 'groq')
+            self.assertEqual(result['generation'], 'llm')
             self.assertEqual(result['sources'][0]['id'], 'ILO_1')
             self.assertFalse(post.call_args.kwargs['json']['with_vector'])
 

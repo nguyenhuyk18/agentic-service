@@ -1,1 +1,1 @@
-from .MessageInterface import MessagePayload, RagMessagePayload
+from .MessageInterface import MessagePayload, MemberMessagePayload, RagMessagePayload

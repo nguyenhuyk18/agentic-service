@@ -9,16 +9,28 @@ import requests
 load_dotenv(Path(__file__).resolve().parent.parent / '.env')
 
 
-class tools_func:
-    """Allow-listed MajorGuide tools. All data access goes through the BFF."""
+ADMIN_TOOLS = ('dashboard_summary', 'booking_overview', 'all_expert', 'search_users',
+               'pending_schedule_registrations', 'notifications', 'draft_email', 'accounting_summary', 'site_info')
+EXPERT_TOOLS = ('dashboard_summary', 'booking_overview', 'my_schedule_registration', 'notifications', 'site_info')
 
-    def __init__(self, authorization: str | None = None):
+
+class tools_func:
+    """Allow-listed MajorGuide tools. All data access goes through the BFF with the caller's token,
+    so an expert only ever sees their own bookings even if the model asks for more."""
+
+    def __init__(self, authorization: str | None = None, role: str = 'admin', user_id: str | None = None):
         self.authorization = authorization or ''
+        # Unknown roles get the smaller toolbox; the BFF still enforces access per token.
+        self.role = role if role in ('admin', 'expert') else 'expert'
+        self.user_id = (user_id or '').strip()
         # Bind methods before creating schemas so self is never an LLM argument.
-        for name in ('dashboard_summary', 'all_expert', 'search_users',
-                     'pending_schedule_registrations', 'draft_email', 'accounting_summary'):
+        for name in set(ADMIN_TOOLS + EXPERT_TOOLS):
             setattr(self, name, tool(getattr(self, name)))
         self.bff_url = os.getenv('BFF_INTERNAL_URL', 'http://localhost:3300/api/v2').rstrip('/')
+
+    def tools(self) -> list:
+        names = EXPERT_TOOLS if self.role == 'expert' else ADMIN_TOOLS
+        return [getattr(self, name) for name in names]
 
     async def _get(self, path: str, params: dict | None = None) -> dict:
         if not self.authorization.lower().startswith('bearer '):
@@ -44,8 +56,35 @@ class tools_func:
             return {'ok': False, 'error': f'Không thể kết nối API nghiệp vụ: {type(error).__name__}'}
 
     async def dashboard_summary(self) -> dict:
-        """Lấy số liệu dashboard thật: booking, doanh thu, trạng thái và chuyên gia nổi bật."""
+        """Lấy số liệu dashboard thật: tổng booking, đã thanh toán, đang chờ, đã huỷ, doanh thu theo tháng,
+        booking mới nhất và chuyên gia nổi bật (với chuyên gia: chỉ số liệu của chính họ)."""
         return await self._get('/book/dashboard')
+
+    async def booking_overview(self, scope: str = 'upcoming', limit: int = 10) -> dict:
+        """Danh sách lịch tư vấn. scope='upcoming': lịch đã thanh toán sắp diễn ra (từ hôm nay, sớm nhất trước);
+        scope='recent': lịch vừa được đặt gần đây nhất (mọi trạng thái, mới nhất trước). limit 1-20.
+        Chuyên gia chỉ thấy lịch của chính mình."""
+        return await self._get('/book/ai-overview', {
+            'scope': 'recent' if scope == 'recent' else 'upcoming',
+            'limit': max(1, min(int(limit or 10), 20)),
+        })
+
+    async def my_schedule_registration(self) -> dict:
+        """Các ca trực/đăng ký lịch tư vấn đang có hiệu lực trong tuần này của chính chuyên gia."""
+        if not self.user_id:
+            return {'ok': False, 'error': 'Thiếu thông tin chuyên gia.'}
+        return await self._get(f'/register/expert/{self.user_id}')
+
+    async def notifications(self, unread_only: bool = True, limit: int = 10) -> dict:
+        """Thông báo gần đây của tài khoản (booking mới, thanh toán, đánh giá...). unread_only=True chỉ lấy chưa đọc."""
+        return await self._get('/notifications', {
+            'status': 'unread' if unread_only else '', 'page': 1, 'limit': max(1, min(int(limit or 10), 20)),
+        })
+
+    async def site_info(self, question: str) -> dict:
+        """Tra cứu thông tin công khai về website MajorGuide (quy trình đặt lịch, thanh toán, bài test, liên hệ...)."""
+        from apps.agents import site_knowledge
+        return {'ok': True, 'data': site_knowledge.search(question[:500])}
 
     async def all_expert(self, query: str = '', limit: int = 10) -> dict:
         """Tìm danh sách chuyên gia thật. query là tên cần tìm; limit từ 1 đến 20."""

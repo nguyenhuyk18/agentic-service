@@ -2,7 +2,7 @@ from fastapi import APIRouter, Header, HTTPException
 from pydantic import BaseModel, Field
 from typing import Dict, List
 from ..services.CareerPredictionService import career_service
-from langchain_groq import ChatGroq
+from ..llm import LlmNotConfigured, build_chat_model, model_name
 import asyncio
 import hmac
 import json
@@ -47,9 +47,10 @@ async def review_career_result(payload: CareerAiReviewRequest, x_internal_token:
         raise HTTPException(status_code=503, detail="AI review is not configured")
     if not x_internal_token or not hmac.compare_digest(x_internal_token, expected_token):
         raise HTTPException(status_code=401, detail="Invalid internal token")
-    api_key = os.getenv("GROQ_API_KEY", "").strip()
-    if not api_key:
-        raise HTTPException(status_code=503, detail="GROQ_API_KEY is not configured")
+    try:
+        model = build_chat_model(temperature=0.15, timeout=40, max_retries=1, max_tokens=1500).with_structured_output(CareerAiReviewOutput)
+    except LlmNotConfigured:
+        raise HTTPException(status_code=503, detail="AI review is not configured")
 
     candidates = [item.model_dump() for item in payload.candidates]
     allowed_codes = {item["code"] for item in candidates}
@@ -64,7 +65,6 @@ Tín hiệu nổi bật: {json.dumps(payload.strengths, ensure_ascii=False)}
 Ứng viên đã ẩn danh: {json.dumps(candidates, ensure_ascii=False)}
 """
     try:
-        model = ChatGroq(api_key=api_key, model=os.getenv("GROQ_MODEL", "openai/gpt-oss-120b"), temperature=0.15, timeout=25, max_retries=1, max_tokens=1000).with_structured_output(CareerAiReviewOutput)
         review = await asyncio.to_thread(model.invoke, prompt)
         dumped = review.model_dump() if hasattr(review, "model_dump") else dict(review)
         seen, safe_ranking = set(), []
@@ -76,7 +76,7 @@ Tín hiệu nổi bật: {json.dumps(payload.strengths, ensure_ascii=False)}
         if len(safe_ranking) < 2:
             raise ValueError("AI returned an invalid candidate ranking")
         dumped["ranked_candidates"] = safe_ranking
-        return {"success": True, "model": os.getenv("GROQ_MODEL", "openai/gpt-oss-120b"), "review": dumped}
+        return {"success": True, "model": model_name(), "review": dumped}
     except Exception as error:
         raise HTTPException(status_code=502, detail=f"AI review failed: {type(error).__name__}")
 

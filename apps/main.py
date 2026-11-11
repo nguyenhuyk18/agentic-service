@@ -49,7 +49,26 @@ app.include_router(ClientRouter.router)
 app.include_router(CareerRouter.router)
 app.include_router(CareerModelRouter.router)
 
-print(f"Groq model: {os.getenv('GROQ_MODEL', 'openai/gpt-oss-120b')}")
+from apps.llm import model_name
+print(f"LLM model: {model_name()}")
+
+
+@app.on_event("startup")
+async def warm_up_embeddings():
+    """Load the embedding model in the background so the first career question is not slow."""
+    if os.getenv('EMBEDDING_WARMUP', 'true').lower() != 'true':
+        return
+    import asyncio
+    from apps.controllers.AgenticController import get_embedding_model
+
+    async def load():
+        try:
+            await asyncio.to_thread(get_embedding_model)
+            print('[startup] embedding model ready')
+        except Exception as error:
+            print(f'[startup] embedding warm-up skipped: {type(error).__name__}')
+
+    asyncio.create_task(load())
 
 class RequestData(BaseModel):
     text: str = Field(min_length=1, max_length=1000)
