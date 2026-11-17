@@ -59,6 +59,13 @@ ASSESSMENT = {
             {'rank': 2, 'code': 'BUS', 'name': 'Kinh doanh', 'matchScore': 70},
         ],
         'strengths': [{'facet': 'I', 'score': 80}], 'evidenceLevel': 'strong', 'riasecCode': 'IRC',
+        # What the result page shows (ML career match); the tool must prefer it over topGroups.
+        'careerMatch': {'riasecCode': 'RIC', 'academicUsed': True, 'groups': [
+            {'rank': 1, 'code': 'engineering', 'name': 'Kỹ thuật', 'percent': 49, 'interestPercent': 47,
+             'academic': {'percent': 76, 'combo': 'A00', 'total': 24.75, 'nationalPercentile': 88},
+             'majors': ['Kỹ thuật cơ khí'], 'jobs': ['Kỹ sư cơ khí']},
+            {'rank': 2, 'code': 'it', 'name': 'Công nghệ thông tin', 'percent': 12},
+        ]},
     },
     'answers': {'secret': 'raw answers must not leak'},
 }
@@ -149,13 +156,24 @@ class RunnerTests(unittest.IsolatedAsyncioTestCase):
 
 class MemberToolTests(unittest.IsolatedAsyncioTestCase):
     async def test_latest_result_picks_newest_completed(self):
-        older = {**ASSESSMENT, 'id': 'a1', 'completedAt': '2026-01-01T00:00:00Z'}
-        unfinished = {'id': 'a3', 'status': 'in_progress', 'createdAt': '2026-12-01'}
-        tools = MemberTools('Bearer t', 'm', client=FakeBff({'/career-assessments/me/history': {'ok': True, 'data': [older, unfinished, ASSESSMENT]}}))
+        # The API returns newest first; an unfinished session on top must be skipped.
+        older = {**ASSESSMENT, 'id': 'a1'}
+        unfinished = {'id': 'a3', 'status': 'in_progress'}
+        tools = MemberTools('Bearer t', 'm', client=FakeBff({'/career-assessments/me/history': {'ok': True, 'data': [unfinished, ASSESSMENT, older]}}))
         result = await tools.latest_test_result.ainvoke({})
         self.assertEqual(result['data']['assessmentId'], 'a2')
-        self.assertEqual(result['data']['topGroups'][0]['code'], 'IT')
+        top = result['data']['topGroups'][0]
+        self.assertEqual((top['code'], top['name'], top['matchPercent']), ('engineering', 'Kỹ thuật', 49))
+        self.assertEqual(top['academic']['combo'], 'A00')
+        self.assertEqual(result['data']['riasecCode'], 'RIC')
         self.assertIn({'type': 'link', 'label': 'Xem kết quả bài test', 'href': '/quiz-history'}, tools.actions)
+
+    async def test_old_results_without_career_match_still_work(self):
+        legacy = {**ASSESSMENT, 'result': {k: v for k, v in ASSESSMENT['result'].items() if k != 'careerMatch'}}
+        tools = MemberTools('Bearer t', 'm', client=FakeBff({'/career-assessments/me/history': {'ok': True, 'data': [legacy]}}))
+        result = await tools.latest_test_result.ainvoke({})
+        self.assertEqual(result['data']['topGroups'][0]['code'], 'IT')
+        self.assertEqual(result['data']['topGroups'][0]['matchPercent'], 82)
 
     async def test_latest_result_when_no_test(self):
         tools = MemberTools('Bearer t', 'm', client=FakeBff({'/career-assessments/me/history': {'ok': True, 'data': []}}))
@@ -170,7 +188,7 @@ class MemberToolTests(unittest.IsolatedAsyncioTestCase):
         })
         tools = MemberTools('Bearer t', 'm', client=bff)
         result = await tools.recommend_experts.ainvoke({})
-        self.assertEqual(bff.requests[-1][1]['families'], 'IT,BUS')
+        self.assertEqual(bff.requests[-1][1]['families'], 'engineering,it')
         self.assertEqual(result['data'][0]['matchReason'], 'Đúng nhóm #1')
         self.assertNotIn('x@y.z', str(result))
         self.assertEqual(tools.actions[0]['type'], 'experts')

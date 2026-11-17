@@ -20,17 +20,32 @@ def vietnam_today() -> date:
     return datetime.now(VN).date()
 
 
+def result_groups(result: dict) -> list[dict]:
+    """The career groups the result page shows: the ML career match (career-v5+), else the older rule ranking."""
+    match = result.get('careerMatch') or {}
+    if match.get('groups'):
+        return match['groups']
+    return result.get('topGroups') or []
+
+
 def _summarize_assessment(session: dict) -> dict:
     result = session.get('result') or {}
+    match = result.get('careerMatch') or {}
     groups = []
-    for item in (result.get('topGroups') or [])[:5]:
+    for item in result_groups(result)[:3]:
+        academic = item.get('academic') or {}
         groups.append({
             'rank': item.get('rank'),
             'code': item.get('code'),
             'name': item.get('name') or item.get('title'),
-            'matchScore': item.get('matchScore'),
+            'fitLevel': item.get('fitLevel'),
+            'matchPercent': item.get('percent', item.get('matchScore')),
+            'interestPercent': item.get('interestPercent'),
+            'academic': {key: academic.get(key) for key in ('percent', 'combo', 'total', 'nationalPercentile', 'strongSubjects', 'weakSubjects')} if academic else None,
+            'explanation': short(item.get('explanation'), 500) if item.get('explanation') else None,
             'fitReasons': [short(reason, 200) for reason in (item.get('fitReasons') or [])[:3]],
-            'relatedMajors': [short(major, 120) for major in (item.get('relatedMajors') or [])[:6]],
+            'majors': [short(major, 120) for major in (item.get('majors') or item.get('relatedMajors') or [])[:6]],
+            'jobs': [short(job, 120) for job in (item.get('jobs') or [])[:5]],
         })
     profile = result.get('personalProfile') or {}
     explanation = result.get('explanation')
@@ -38,7 +53,10 @@ def _summarize_assessment(session: dict) -> dict:
     return {
         'assessmentId': session.get('id'),
         'completedAt': session.get('completedAt') or session.get('updatedAt') or session.get('createdAt'),
-        'riasecCode': result.get('riasecCode') or (result.get('mlModel') or {}).get('riasecCode'),
+        'riasecCode': match.get('riasecCode') or result.get('riasecCode'),
+        'percentMeaning': match.get('percentMeaning') or result.get('matchMeaning'),
+        'academicUsed': match.get('academicUsed'),
+        'alignment': match.get('alignment'),
         'topGroups': groups,
         'strengths': (result.get('strengths') or [])[:5],
         'evidenceLevel': result.get('evidenceLevel'),
@@ -78,11 +96,9 @@ class MemberTools:
         history = await self.client.get('/career-assessments/me/history')
         if not history['ok']:
             return history
+        # The API lists sessions newest first (sorted by createdAt).
         sessions = [item for item in as_list(history['data']) if isinstance(item, dict) and item.get('status') == 'completed' and item.get('result')]
-        if not sessions:
-            return {'ok': True, 'data': None}
-        sessions.sort(key=lambda item: str(item.get('completedAt') or item.get('updatedAt') or item.get('createdAt') or ''), reverse=True)
-        return {'ok': True, 'data': sessions[0]}
+        return {'ok': True, 'data': sessions[0] if sessions else None}
 
     async def latest_test_result(self) -> dict:
         """Lấy kết quả bài kiểm tra định hướng nghề nghiệp GẦN NHẤT của chính người dùng đang chat:
@@ -107,7 +123,7 @@ class MemberTools:
                 return latest
             if not latest['data']:
                 return {'ok': True, 'data': [], 'message': 'Chưa có bài test để ghép chuyên gia. Hãy dùng search_experts theo ngành người dùng nêu, hoặc mời họ làm bài test.'}
-            codes = [item.get('code') for item in (latest['data'].get('result') or {}).get('topGroups', []) if item.get('code')][:5]
+            codes = [item.get('code') for item in result_groups(latest['data'].get('result') or {}) if item.get('code')][:5]
         safe_limit = max(1, min(int(limit or 4), 6))
         response = await self.client.get('/career-assessments/experts', {'families': ','.join(codes), 'limit': safe_limit})
         if not response['ok']:
